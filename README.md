@@ -13,15 +13,24 @@ classDiagram
     Transient <|.. Conductance: Implements
 
     class MetalOxideSensorResponse{
-        -transients: Dict[str, Transient]
+        -transients: Dict~str, Transient~
         -duration_s: Integer
         +addTransient(id: str, transient: Transient) void
         +removeTransient(id: str) void
-        +getTransients(void) Dict[str, Dataframe]
+        +getTransients(void) Dict~str, Dataframe~
     }
     class Transient{
         <<Interface>>
-        + get(csvPath: str) DataFrame
+        + get() DataFrame
+    }
+    class Voltage{
+        -csvPath: str
+    }
+    class Current{
+        -csvPath: str
+    }
+    class Conductance{
+        -csvPath: str
     }
 ```
 
@@ -35,12 +44,12 @@ classDiagram
     SampleReader 
     class SampleReader{
         - pathChecker: SamplePathChecker
-        + read(path: str) List[Dict[str, Any]]
+        + read(path: str) List~Dict~str, Any~~
     }
     class SamplePathChecker{
         <<Interface>>
         + isValid(path: str) bool
-        + getImagePaths(path: str) List[str]
+        + getImagePaths(path: str) List~str~
         + getCsvPath(path: str) str
     }
 ```
@@ -53,3 +62,6 @@ classDiagram
 
 ### Pytest
 - [Skipping Test Cases](https://docs.pytest.org/en/7.1.x/how-to/skipping.html)
+
+## Warning !!!
+ This repo is currently under maintenance, converting the boring jupyter notebooks into much more cooler Dash application.
