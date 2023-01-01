@@ -13,11 +13,11 @@ classDiagram
     Transient <|.. Conductance: Implements
 
     class MetalOxideSensorResponse{
-        -transients: Dict~str, Transient~
+        -transients: Dict~Transient~
         -duration_s: Integer
         +addTransient(id: str, transient: Transient) void
         +removeTransient(id: str) void
-        +getTransients(void) Dict~str, Dataframe~
+        +getTransients(void) Dict~Dataframe~
     }
     class Transient{
         <<Interface>>
@@ -44,7 +44,7 @@ classDiagram
     SampleReader 
     class SampleReader{
         - pathChecker: SamplePathChecker
-        + read(path: str) List~Dict~str, Any~~
+        + read(path: str) List~Dict~Any~~
     }
     class SamplePathChecker{
         <<Interface>>
