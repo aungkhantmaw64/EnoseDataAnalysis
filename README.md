@@ -7,30 +7,25 @@ This repository contains analytics for the experimental ordor dataset I created 
 ### Sensor Responses
 ```mermaid
 classDiagram
-    MetalOxideSensorResponse --> "1..*" Transient: Contains
+    direction TD
+    MetalOxideSensorResponse --> Transient: Aggregates
     Transient <|.. Voltage: Implements
     Transient <|.. Current: Implements
     Transient <|.. Conductance: Implements
 
     class MetalOxideSensorResponse{
-        -transients: Dict~Transient~
+        -sensors: List~Sensor~
+        -csvPath: str
         -duration_s: Integer
-        +addTransient(id: str, transient: Transient) void
-        +removeTransient(id: str) void
-        +getTransients(void) Dict~Dataframe~
+        +getResponse(type: Transient) DataFrame
     }
     class Transient{
         <<Interface>>
-        + get() DataFrame
+        + acquire(csvPath: str, sensors: List~Sensor~) DataFrame
     }
-    class Voltage{
-        -csvPath: str
-    }
-    class Current{
-        -csvPath: str
-    }
-    class Conductance{
-        -csvPath: str
+    class Sensor{
+        + name: str
+        + loadResistance: Float
     }
 ```
 
