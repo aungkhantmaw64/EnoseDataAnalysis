@@ -74,5 +74,11 @@ class ConductanceTransient(Transient):
 
 class MetalOxideSensorResponse:
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self, csvPath: str, duration_s: int, sensors: List[Sensor]) -> None:
+        self.__csvPath = csvPath
+        self.__duration_s = duration_s
+        self.__sensors = sensors
+
+    def getResponse(self, transient: Transient) -> pandas.DataFrame:
+        return transient.acquire(csvPath=self.__csvPath,
+                                 sensors=self.__sensors)[:self.__duration_s]
