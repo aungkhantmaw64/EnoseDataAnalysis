@@ -11,7 +11,7 @@ EXPECTED_SAMPLE_LIST = ["Acetone",
                         "Toluene"]
 
 EXPECTED_IMAGES_PATH = os.path.join(EXPECTED_SAMPLE_PATH, "images")
-EXPECTED_CSV_PATH = os.path.join(EXPECTED_SAMPLE_PATH, "serialdata.csv")
+EXPECTED_CSV_PATH = "..\\data\\raw_samples\\Acetone\\serialdata.csv"
 CORRECT_SAMPLE_STRUCTURE = ["images",
                             "serialdata.csv"]
 
