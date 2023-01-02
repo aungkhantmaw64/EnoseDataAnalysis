@@ -47,8 +47,21 @@ class VoltageTransient(Transient):
         raw_df = pandas.read_csv(csvPath,
                                  header=0,
                                  index_col=0,
-                                 names=DEFAULT_MOS_SENSORS)
+                                 names=[sensor.name for sensor in sensors])
         return REFERENCE_VOLTAGE - raw_df
+
+
+class CurrentTransient(Transient):
+
+    def acquire(self, csvPath: str, sensors: List[Sensor]) -> pandas.DataFrame:
+        raw_df = pandas.read_csv(csvPath,
+                                 header=0,
+                                 index_col=0,
+                                 names=[sensor.name for sensor in sensors])
+        load_resistances = [sensor.loadResistance for sensor in sensors]
+        load_resistance_series = pandas.Series(data=load_resistances,
+                                               index=[sensor.name for sensor in sensors]).T
+        return raw_df/load_resistance_series
 
 
 class MetalOxideSensorResponse:
