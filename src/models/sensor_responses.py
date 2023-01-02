@@ -64,6 +64,14 @@ class CurrentTransient(Transient):
         return raw_df/load_resistance_series
 
 
+class ConductanceTransient(Transient):
+
+    def acquire(self, csvPath: str, sensors: List[Sensor]) -> pandas.DataFrame:
+        voltage = VoltageTransient()
+        current = CurrentTransient()
+        return current.acquire(csvPath, sensors)/voltage.acquire(csvPath, sensors)
+
+
 class MetalOxideSensorResponse:
 
     def __init__(self) -> None:
