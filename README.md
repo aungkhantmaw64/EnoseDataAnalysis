@@ -2,6 +2,19 @@
 ## Introduction
 This repository contains analytics for the experimental ordor dataset I created using the hybrid-electronic nose designed as an aiding device for non-invasive diaganosis. I published an IEEE research [article](https://ieeexplore.ieee.org/document/9495905) as a main author based on this device and the code used for the analytics of the dataset can be found in this repo
 
+## Environment Setup
+For using the notebooks, install the dependencies by entering the following in the command prompt.
+```
+$ pip install -r requirements.txt
+```
+For testing and verifying the coding standards:
+```
+$ pip install -r requirements_dev.txt
+```
+To be able to call custom python modules from anywhere:
+```
+$ pip install -e .
+```
 ## Resources
 
 ### Mocking
