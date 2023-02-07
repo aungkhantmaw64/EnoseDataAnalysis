@@ -33,3 +33,6 @@ class SamplePathChecker:
         """
         return (self.__check_path("images", path) and
                 self.__check_path("1.jpg", path + "/images"))
+
+    def check(self, path: str) -> bool:
+        return (self.check_csv(path) and self.check_jpg(path))

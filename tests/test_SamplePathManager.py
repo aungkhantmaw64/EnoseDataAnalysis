@@ -39,3 +39,24 @@ def test_SampleManager_ChecksIfSampleFolderHasImagesFolder():
         calls=[call(fake_sample_path),
                call(fake_sample_path + "/images")]
     )
+
+
+def test_SampleManager_CheckIfSampleFolderIsValid():
+    fake_sample_path = "GasName"
+    path_manager = SamplePathChecker()
+    path_manager.check_csv = MagicMock(return_value=True)
+    path_manager.check_jpg = MagicMock(return_value=True)
+
+    assert path_manager.check(fake_sample_path)
+
+    path_manager.check_csv.assert_called_once_with(fake_sample_path)
+    path_manager.check_jpg.assert_called_once_with(fake_sample_path)
+
+
+def test_SampleManager_ReturnsFalseWhenCheckingInvalidSampleFolder():
+    fake_sample_path = "GasName"
+    path_manager = SamplePathChecker()
+    path_manager.check_csv = MagicMock(return_value=False)
+    path_manager.check_jpg = MagicMock(return_value=False)
+
+    assert not path_manager.check(fake_sample_path)
