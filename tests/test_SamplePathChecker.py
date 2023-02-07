@@ -1,20 +1,21 @@
-from models.sample_checker import SamplePathChecker
+from models.database import SamplePathChecker
 from unittest.mock import MagicMock, Mock, call
 import os
 
+'''
+fake_sample_path doesn't exist.
+Valid sample folder should be structured as follows:
+
+GasName
+    |_images
+    |   |_1.jpg
+    |   |_2.jpg
+    |   |_etc.
+    |_serialdata.csv
+'''
+
 
 def test_SamplePathChecker_ChecksIfSampleFolderHasCsvFile():
-    """
-    The path under test doesn't exist.
-    We will mock os module to get fake return values
-    GasName
-        |_images
-        |   |_1.jpg
-        |   |_2.jpg
-        |   |_etc.
-        |_serialdata.csv
-
-    """
     os.listdir = MagicMock(return_value=["images",
                                          "serialdata.csv"])
     fake_sample_path = "GasName"
