@@ -35,4 +35,12 @@ class SamplePathChecker:
                 self.__check_path("1.jpg", path + "/images"))
 
     def check(self, path: str) -> bool:
+        """Check if the given path is a valid sample folder.
+
+        Args:
+            path (str): the sample folder/path 
+
+        Returns:
+            bool: true if the path is valid, false otherwise.
+        """
         return (self.check_csv(path) and self.check_jpg(path))
