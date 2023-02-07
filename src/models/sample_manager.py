@@ -1,7 +1,7 @@
 import os
 
 
-class SamplePathManager:
+class SamplePathChecker:
 
     def __init__(self) -> None:
         pass

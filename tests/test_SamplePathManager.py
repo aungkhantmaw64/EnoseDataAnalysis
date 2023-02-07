@@ -1,4 +1,4 @@
-from models.sample_manager import SamplePathManager
+from models.sample_manager import SamplePathChecker
 from unittest.mock import MagicMock, Mock, call
 import os
 
@@ -18,7 +18,7 @@ def test_SampleManager_ChecksIfSampleFolderHasCsvFile():
     os.listdir = MagicMock(return_value=["images",
                                          "serialdata.csv"])
     fake_sample_path = "GasName"
-    path_manager = SamplePathManager()
+    path_manager = SamplePathChecker()
     assert path_manager.check_csv(fake_sample_path)
     os.listdir.assert_called_with(fake_sample_path)
 
@@ -33,7 +33,7 @@ def test_SampleManager_ChecksIfSampleFolderHasImagesFolder():
     os.listdir = Mock()
     os.listdir.side_effect = side_effect
 
-    path_manager = SamplePathManager()
+    path_manager = SamplePathChecker()
     assert path_manager.check_jpg(fake_sample_path)
     os.listdir.assert_has_calls(
         calls=[call(fake_sample_path),
