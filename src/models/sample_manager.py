@@ -22,5 +22,14 @@ class SamplePathManager:
         return self.__check_path("serialdata.csv", path)
 
     def check_jpg(self, path: str) -> bool:
+        """Checks if an image folder
+        with at least one image file named 1.jpg exists in the path
+
+        Args:
+            path (str): sample folder/path
+
+        Returns:
+            bool: true if it exists, false otherwise.
+        """
         return (self.__check_path("images", path) and
                 self.__check_path("1.jpg", path + "/images"))
