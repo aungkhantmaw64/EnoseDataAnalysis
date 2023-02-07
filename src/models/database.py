@@ -1,4 +1,22 @@
 import os
+from typing import Protocol
+import pandas
+
+SENSOR_NAMES = ["MQ-2",
+                "MQ-3",
+                "MQ-5",
+                "MQ-6",
+                "MQ-8",
+                "MQ-9",
+                "MQ-135",
+                "MQ-138"
+                ]
+
+
+class PathChecker(Protocol):
+
+    def check(self, path: str) -> bool:
+        pass
 
 
 class SamplePathChecker:
@@ -44,3 +62,18 @@ class SamplePathChecker:
             bool: true if the path is valid, false otherwise.
         """
         return (self.check_csv(path) and self.check_jpg(path))
+
+
+class Sample:
+
+    def __init__(self, path: str, path_checker: PathChecker):
+        self.path = path
+        self.path_checker = path_checker
+
+    def raw_mos_data(self) -> pandas.DataFrame:
+        if self.path_checker.check(self.path):
+            return pandas.read_csv(self.path + "/serialdata.csv",
+                                   header=0,
+                                   index_col=0,
+                                   names=SENSOR_NAMES)
+        return pandas.DataFrame()
