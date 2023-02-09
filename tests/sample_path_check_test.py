@@ -1,4 +1,5 @@
 from models.database import SamplePathChecker
+import unittest
 from unittest.mock import MagicMock, Mock, call
 import os
 
@@ -15,49 +16,48 @@ GasName
 '''
 
 
-def test_SamplePathChecker_ChecksIfSampleFolderHasCsvFile():
-    os.listdir = MagicMock(return_value=["images",
-                                         "serialdata.csv"])
-    fake_sample_path = "GasName"
-    path_checker = SamplePathChecker()
-    assert path_checker.check_csv(fake_sample_path)
-    os.listdir.assert_called_with(fake_sample_path)
+class SamplePathCheckerTest(unittest.TestCase):
 
+    def test_SamplePathChecker_ChecksIfSampleFolderHasCsvFile(self):
+        os.listdir = MagicMock(return_value=["images",
+                                             "serialdata.csv"])
+        fake_sample_path = "GasName"
+        path_checker = SamplePathChecker()
+        assert path_checker.check_csv(fake_sample_path)
+        os.listdir.assert_called_with(fake_sample_path)
 
-def test_SamplePathChecker_ChecksIfSampleFolderHasImagesFolder():
-    fake_sample_path = "GasName"
-    expected_paths = {"GasName": ["images", "serialdata.csv"],
-                      "GasName/images": ["1.jpg", "2.jpg"]}
+    def test_SamplePathChecker_ChecksIfSampleFolderHasImagesFolder(self):
+        fake_sample_path = "GasName"
+        expected_paths = {"GasName": ["images", "serialdata.csv"],
+                          "GasName/images": ["1.jpg", "2.jpg"]}
 
-    def side_effect(path: str) -> str:
-        return expected_paths[path]
-    os.listdir = Mock()
-    os.listdir.side_effect = side_effect
+        def side_effect(path: str) -> str:
+            return expected_paths[path]
+        os.listdir = Mock()
+        os.listdir.side_effect = side_effect
 
-    path_checker = SamplePathChecker()
-    assert path_checker.check_jpg(fake_sample_path)
-    os.listdir.assert_has_calls(
-        calls=[call(fake_sample_path),
-               call(fake_sample_path + "/images")]
-    )
+        path_checker = SamplePathChecker()
+        assert path_checker.check_jpg(fake_sample_path)
+        os.listdir.assert_has_calls(
+            calls=[call(fake_sample_path),
+                   call(fake_sample_path + "/images")]
+        )
 
+    def test_SamplePathChecker_CheckIfSampleFolderIsValid(self):
+        fake_sample_path = "GasName"
+        path_checker = SamplePathChecker()
+        path_checker.check_csv = MagicMock(return_value=True)
+        path_checker.check_jpg = MagicMock(return_value=True)
 
-def test_SamplePathChecker_CheckIfSampleFolderIsValid():
-    fake_sample_path = "GasName"
-    path_checker = SamplePathChecker()
-    path_checker.check_csv = MagicMock(return_value=True)
-    path_checker.check_jpg = MagicMock(return_value=True)
+        assert path_checker.check(fake_sample_path)
 
-    assert path_checker.check(fake_sample_path)
+        path_checker.check_csv.assert_called_once_with(fake_sample_path)
+        path_checker.check_jpg.assert_called_once_with(fake_sample_path)
 
-    path_checker.check_csv.assert_called_once_with(fake_sample_path)
-    path_checker.check_jpg.assert_called_once_with(fake_sample_path)
+    def test_SamplePathChecker_ReturnsFalseWhenCheckingInvalidSampleFolder(self):
+        fake_sample_path = "GasName"
+        path_checker = SamplePathChecker()
+        path_checker.check_csv = MagicMock(return_value=False)
+        path_checker.check_jpg = MagicMock(return_value=False)
 
-
-def test_SamplePathChecker_ReturnsFalseWhenCheckingInvalidSampleFolder():
-    fake_sample_path = "GasName"
-    path_checker = SamplePathChecker()
-    path_checker.check_csv = MagicMock(return_value=False)
-    path_checker.check_jpg = MagicMock(return_value=False)
-
-    assert not path_checker.check(fake_sample_path)
+        assert not path_checker.check(fake_sample_path)
