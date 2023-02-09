@@ -71,6 +71,11 @@ class Sample:
         self.path_checker = path_checker
 
     def raw_mos_data(self) -> pandas.DataFrame:
+        """Get raw metal oxide sensor (MOS) array responses
+
+        Returns:
+            pandas.DataFrame: sensor responses
+        """
         if self.path_checker.check(self.path):
             return pandas.read_csv(self.path + "/serialdata.csv",
                                    header=0,
