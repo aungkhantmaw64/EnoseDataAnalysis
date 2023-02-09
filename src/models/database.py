@@ -1,16 +1,7 @@
 import os
 from typing import Protocol
 import pandas
-
-SENSOR_NAMES = ["MQ-2",
-                "MQ-3",
-                "MQ-5",
-                "MQ-6",
-                "MQ-8",
-                "MQ-9",
-                "MQ-135",
-                "MQ-138"
-                ]
+import json
 
 
 class PathChecker(Protocol):
@@ -69,6 +60,9 @@ class SampleReader:
     def __init__(self, path: str):
         self.path = path
 
+        with open("./sensors.json") as file:
+            self.sensors = json.load(file)
+
     def get_raw_mos(self) -> pandas.DataFrame:
         """Get raw metal oxide sensor (MOS) array responses
 
@@ -78,4 +72,4 @@ class SampleReader:
         return pandas.read_csv(self.path + "/serialdata.csv",
                                header=0,
                                index_col=0,
-                               names=SENSOR_NAMES)
+                               names=self.sensors["mos_names"])
