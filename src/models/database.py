@@ -64,21 +64,18 @@ class SamplePathChecker:
         return (self.check_csv(path) and self.check_jpg(path))
 
 
-class Sample:
+class SampleReader:
 
-    def __init__(self, path: str, path_checker: PathChecker):
+    def __init__(self, path: str):
         self.path = path
-        self.path_checker = path_checker
 
-    def raw_mos_data(self) -> pandas.DataFrame:
+    def get_raw_mos(self) -> pandas.DataFrame:
         """Get raw metal oxide sensor (MOS) array responses
 
         Returns:
             pandas.DataFrame: sensor responses
         """
-        if self.path_checker.check(self.path):
-            return pandas.read_csv(self.path + "/serialdata.csv",
-                                   header=0,
-                                   index_col=0,
-                                   names=SENSOR_NAMES)
-        return pandas.DataFrame()
+        return pandas.read_csv(self.path + "/serialdata.csv",
+                               header=0,
+                               index_col=0,
+                               names=SENSOR_NAMES)
