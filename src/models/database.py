@@ -2,6 +2,8 @@ import os
 from typing import Protocol
 import pandas
 import json
+import numpy
+import cv2
 
 
 class PathChecker(Protocol):
@@ -57,10 +59,10 @@ class SamplePathChecker:
 
 class SampleReader:
 
-    def __init__(self, path: str):
+    def __init__(self, path: str, config_json: str):
         self.path = path
 
-        with open("./sensors.json") as file:
+        with open(config_json) as file:
             self.sensors = json.load(file)
 
     def get_raw_mos(self) -> pandas.DataFrame:
@@ -73,3 +75,15 @@ class SampleReader:
                                header=0,
                                index_col=0,
                                names=self.sensors["mos_names"])
+
+    def __remove_file_extension(self, file: str, ext: str):
+        return file.replace(ext, "")
+
+    def get_raw_csa(self) -> list[numpy.array]:
+        image_names = os.listdir(self.path + "/images")
+        image_names = [self.__remove_file_extension(
+            name, ".jpg"
+        ) for name in image_names]
+        image_names = sorted(image_names, key=int)
+        image_paths = [self.path + "/images/" + name + ".jpg" for name in image_names]
+        return [cv2.imread(path) for path in image_paths]
