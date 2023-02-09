@@ -60,6 +60,12 @@ class SamplePathChecker:
 class SampleReader:
 
     def __init__(self, path: str, config_json: str):
+        """Default constructor for sample reading
+
+        Args:
+            path (str): path to sample folder/directory
+            config_json (str): path to json file containing sensors configurations
+        """
         self.path = path
 
         with open(config_json) as file:
@@ -76,10 +82,24 @@ class SampleReader:
                                index_col=0,
                                names=self.sensors["mos_names"])
 
-    def __remove_file_extension(self, file: str, ext: str):
+    def __remove_file_extension(self, file: str, ext: str) -> str:
+        """Remove file extension from the given string (if any)
+
+        Args:
+            file (str): file name
+            ext (str): extension
+
+        Returns:
+            str: file name with extension removed
+        """
         return file.replace(ext, "")
 
     def get_raw_csa(self) -> list[numpy.array]:
+        """Get raw colorimetric sensor array responses
+
+        Returns:
+            list[numpy.array]: _description_
+        """
         image_names = os.listdir(self.path + "/images")
         image_names = [self.__remove_file_extension(
             name, ".jpg"
