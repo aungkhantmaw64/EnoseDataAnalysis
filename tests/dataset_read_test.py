@@ -3,6 +3,7 @@ import unittest
 from unittest.mock import MagicMock, Mock, call
 import pandas
 import numpy
+import numpy.typing
 import json
 import cv2
 import os
@@ -47,7 +48,7 @@ class SampleReaderTest(unittest.TestCase):
         cv2.imread = MagicMock()
         cv2.imread.side_effect = imread_side_effect
 
-        csa_images: list[numpy.array] = self.sample_reader.get_raw_csa()
+        csa_images: list[numpy.typing.NDArray[numpy.uint8]] = self.sample_reader.get_raw_csa()
 
         for expected, actual in zip(self.mock_images.values(), csa_images):
             numpy.testing.assert_equal(actual, expected)
@@ -68,7 +69,7 @@ class SampleReaderTest(unittest.TestCase):
                               columns=columns)
         return df
 
-    def create_mock_csa_sample(self) -> numpy.array:
+    def create_mock_csa_sample(self) -> numpy.typing.NDArray[numpy.uint8]:
         img = numpy.random.randint(low=0,
                                    high=200,
                                    size=(

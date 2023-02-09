@@ -3,6 +3,7 @@ from typing import Protocol
 import pandas
 import json
 import numpy
+import numpy.typing
 import cv2
 
 
@@ -49,7 +50,7 @@ class SamplePathChecker:
         """Check if the given path is a valid sample folder.
 
         Args:
-            path (str): the sample folder/path 
+            path (str): the sample folder/path
 
         Returns:
             bool: true if the path is valid, false otherwise.
@@ -94,11 +95,11 @@ class SampleReader:
         """
         return file.replace(ext, "")
 
-    def get_raw_csa(self) -> list[numpy.array]:
+    def get_raw_csa(self) -> list[numpy.typing.NDArray[numpy.uint8]]:
         """Get raw colorimetric sensor array responses
 
         Returns:
-            list[numpy.array]: _description_
+            list[numpy.typing.NDArray[numpy.uint8]]: list of images in BRG format
         """
         image_names = os.listdir(self.path + "/images")
         image_names = [self.__remove_file_extension(
