@@ -1,4 +1,4 @@
-from models.database import SamplePathChecker, SampleReader
+from models.sample import SamplePathChecker, SampleReader
 import unittest
 from unittest.mock import MagicMock, Mock, call
 import pandas

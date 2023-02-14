@@ -1,4 +1,4 @@
-from models.database import SamplePathChecker
+from models.sample import SamplePathChecker
 import unittest
 from unittest.mock import MagicMock, Mock, call
 import os
